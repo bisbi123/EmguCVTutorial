@@ -8,6 +8,7 @@ namespace EmguCVTutorial
     public partial class Form1 : Form
     {
         VideoCapture device;
+        System.Drawing.Size windowSize { get; set; }
         public Form1()
         {
             InitializeComponent();
@@ -21,8 +22,8 @@ namespace EmguCVTutorial
                 device = new VideoCapture(0); 
 
             device.ImageGrabbed += Capture_ImageGrab;
+            pictureBox1.Size = windowSize;
             device.Start();
-
 
 
         }
@@ -35,6 +36,8 @@ namespace EmguCVTutorial
                 {
                     Mat m = new Mat();
                     device.Retrieve(m);
+                    windowSize = new System.Drawing.Size(m.Width, m.Height);
+
                     pictureBox1.Image = m.ToImage<Bgr, byte>().ToBitmap();
                 }
                 catch (Exception)
